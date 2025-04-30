@@ -1,0 +1,213 @@
+
+---
+title: "Wine Quality EDA - Capstone"
+author: "Kasey Cohen"
+output:
+  html_document:
+    toc: true
+    toc_depth: 2
+    number_sections: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# 1. Business Understanding
+
+A wine producer wants to understand what factors influence wine quality. This analysis explores non-obvious relationships between chemical properties of wine and its quality using EDA techniques
+
+# 2. Data Understanding
+
+```{r}
+# Load libraries
+if (!require("tidyverse")) install.packages("tidyverse")
+if (!require("ggcorrplot")) install.packages("ggcorrplot")
+if (!require("skimr")) install.packages("skimr")
+if (!require("ggpubr")) install.packages("ggpubr")
+
+library(tidyverse)
+library(ggcorrplot)
+library(skimr)
+library(ggpubr)
+
+# Load red wine dataset
+wine_red <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv", sep = ";")
+head(wine_red)
+
+# Load white wine dataset
+wine_white <- read.csv("https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv", sep = ";")
+head(wine_white)
+```
+
+# 3. Data Understanding
+
+```{r}
+# Basic structure of the red wine dataset
+dim(wine_red)
+str(wine_red)
+skim(wine_red)
+summary(wine_red)
+
+# Basic structure of the white wine dataset
+dim(wine_white)
+str(wine_white)
+skim(wine_white)
+summary(wine_white)
+```
+
+# 4. Data Preparation
+
+```{r}
+# Check for missing values in red wine
+colSums(is.na(wine_red))
+
+# Create quality labels for red wine
+wine_red <- wine_red %>%
+  mutate(quality_label = case_when(
+    quality <= 5 ~ "low",
+    quality == 6 ~ "medium",
+    quality >= 7 ~ "high"
+  )) %>%
+  mutate(quality_label = factor(quality_label, levels = c("low", "medium", "high")))
+
+table(wine_red$quality_label)
+
+# Check for missing values in white wine
+colSums(is.na(wine_white))
+
+# Create quality labels for white wine
+wine_white <- wine_white %>%
+  mutate(quality_label = case_when(
+    quality <= 5 ~ "low",
+    quality == 6 ~ "medium",
+    quality >= 7 ~ "high"
+  )) %>%
+  mutate(quality_label = factor(quality_label, levels = c("low", "medium", "high")))
+
+table(wine_white$quality_label)
+```
+
+# 5. Modeling and Evaluation (EDA)
+
+## Correlation Heatmap for Red Wine
+
+```{r}
+cor_matrix_red <- cor(wine_red[, 1:11])
+ggcorrplot(cor_matrix_red, hc.order = TRUE, type = "lower", lab = TRUE)
+```
+
+## Boxplot: Alcohol vs Quality for Red Wine
+
+```{r}
+ggplot(wine_red, aes(x = quality_label, y = alcohol, fill = quality_label)) +
+  geom_boxplot() +
+  labs(title = "Alcohol Content by Wine Quality (Red Wine)", x = "Quality", y = "Alcohol") +
+  theme_minimal()
+```
+
+## Density Plot: pH for Red Wine
+
+```{r}
+ggplot(wine_red, aes(x = pH, fill = quality_label)) +
+  geom_density(alpha = 0.6) +
+  labs(title = "pH Distribution by Wine Quality (Red Wine)", x = "pH", y = "Density") +
+  theme_minimal()
+```
+
+## Hypothesis Testing for Red Wine
+
+```{r}
+# T-test: Alcohol in high vs. low quality (red wine)
+t.test(alcohol ~ quality_label, data = wine_red %>% filter(quality_label != "medium"))
+
+# ANOVA: Fixed acidity vs. quality (red wine)
+anova_result_red <- aov(fixed.acidity ~ quality_label, data = wine_red)
+summary(anova_result_red)
+
+# QQ plot for alcohol in red wine
+ggqqplot(wine_red$alcohol)
+```
+
+## Correlation Heatmap for White Wine
+
+```{r}
+cor_matrix_white <- cor(wine_white[, 1:11])
+ggcorrplot(cor_matrix_white, hc.order = TRUE, type = "lower", lab = TRUE)
+```
+
+## Boxplot: Alcohol vs Quality for White Wine
+
+```{r}
+ggplot(wine_white, aes(x = quality_label, y = alcohol, fill = quality_label)) +
+  geom_boxplot() +
+  labs(title = "Alcohol Content by Wine Quality (White Wine)", x = "Quality", y = "Alcohol") +
+  theme_minimal()
+```
+
+## Density Plot: pH for White Wine
+
+```{r}
+ggplot(wine_white, aes(x = pH, fill = quality_label)) +
+  geom_density(alpha = 0.6) +
+  labs(title = "pH Distribution by Wine Quality (White Wine)", x = "pH", y = "Density") +
+  theme_minimal()
+```
+
+## Hypothesis Testing for White Wine
+
+```{r}
+# T-test: Alcohol in high vs. low quality (white wine)
+t.test(alcohol ~ quality_label, data = wine_white %>% filter(quality_label != "medium"))
+
+# ANOVA: Fixed acidity vs. quality (white wine)
+anova_result_white <- aov(fixed.acidity ~ quality_label, data = wine_white)
+summary(anova_result_white)
+
+# QQ plot for alcohol in white wine
+ggqqplot(wine_white$alcohol)
+```
+
+# 6. Comparison Between Red and White Wine
+
+```{r}
+# Add a new column to differentiate between red and white wines
+wine_red <- wine_red %>%
+  mutate(wine_type = "red")
+
+wine_white <- wine_white %>%
+  mutate(wine_type = "white")
+
+# Combine both datasets
+wine_combined <- bind_rows(wine_red, wine_white)
+
+# Boxplot: Alcohol by Wine Type and Quality
+ggplot(wine_combined, aes(x = quality_label, y = alcohol, fill = wine_type)) +
+  geom_boxplot() +
+  labs(title = "Alcohol Content by Wine Quality (Red vs White)", x = "Quality", y = "Alcohol") +
+  theme_minimal()
+
+# Correlation Heatmap Comparison
+cor_matrix_combined <- cor(wine_combined[, 1:11])
+ggcorrplot(cor_matrix_combined, hc.order = TRUE, type = "lower", lab = TRUE)
+
+# T-test: Alcohol in red vs white wine
+t.test(alcohol ~ wine_type, data = wine_combined)
+
+# ANOVA: Compare fixed acidity between red and white wines
+anova_result_combined <- aov(fixed.acidity ~ wine_type, data = wine_combined)
+summary(anova_result_combined)
+```
+
+# 7. Conclusions
+
+```{r}
+cat("Key Insights:
+")
+cat("- Alcohol content in red wines tends to be higher than in white wines.
+")
+cat("- The correlation between acidity and quality differs between red and white wines.
+")
+cat("- Differences in pH distribution are evident between red and white wines.
+")
+```
