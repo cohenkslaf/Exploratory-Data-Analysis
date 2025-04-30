@@ -1,6 +1,6 @@
 ---
 title: "Wine Quality EDA - Capstone"
-author: "Your Name"
+author: "Kasey Cohen"
 output:
   html_document:
     toc: true
