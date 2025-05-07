@@ -205,7 +205,9 @@ Type](4_25_Capstone_-Complete1-_.Rmd-_files/figure-gfm/chemical-boxplots-4.png)
 The white wine has a higher median than the red wine and most of the
 white wine’s data points are clustered towards the top while the red
 wine’s data points are clustered more towards the bottom. This means
-that on average, white wine contains more alcohol than red wine. The
+that on average, white wine contains more alcohol than red wine. 
+
+The
 second box-plot represents ph levels of both types of wine. The higher
 the ph level, the less acidic the, which we see with the white wine. Red
 wine acoording to the box plots has a higher acidic level. The third
@@ -226,6 +228,8 @@ strong the acid feeling is while you consume something acidic. On the
 contrary volatile acidity “is a measure of the low molecular weight (or
 steam distillable) fatty acids in wine and is generally percieved as the
 odour of vinegar” (Australian Wine Research Institute, 2018, p. 2).
+
+
 Lastly, these are important chemical differences to look into becasue
 most of the time it depends on what the consumer is preferring, whether
 it is a less acidic feeling while drinking, the amount of alcohol, the
