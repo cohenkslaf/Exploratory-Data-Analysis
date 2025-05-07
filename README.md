@@ -207,6 +207,8 @@ white wine’s data points are clustered towards the top while the red
 wine’s data points are clustered more towards the bottom. This means
 that on average, white wine contains more alcohol than red wine. 
 
+
+
 The
 second box-plot represents ph levels of both types of wine. The higher
 the ph level, the less acidic the, which we see with the white wine. Red
@@ -216,6 +218,8 @@ box-plot, one could infer that since white wine data points cluster
 towards the top, it is safe to say that white wine tends to be sweeter
 than red wine since the red wine data points are clustered more twoards
 the bottom. 
+
+
 
 Finally, the last box-plot compares the wines’ data based
 off of volatile acidity. While studying the box-plot, it is shown that
@@ -228,6 +232,8 @@ strong the acid feeling is while you consume something acidic. On the
 contrary volatile acidity “is a measure of the low molecular weight (or
 steam distillable) fatty acids in wine and is generally percieved as the
 odour of vinegar” (Australian Wine Research Institute, 2018, p. 2).
+
+
 
 
 Lastly, these are important chemical differences to look into becasue
