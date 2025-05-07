@@ -83,14 +83,38 @@ For the t-test used to compare the means of red and white wine quality, we must 
 ### Normality:
 We assume that the distribution of wine quality scores for both red and white wines is approximately normal. To verify this, we can conduct Shapiro-Wilk tests for normality or visually inspect histograms and Q-Q plots for both types of wine.
 
+# Shapiro-Wilk Test for Normality
+shapiro.test(filter(data, type == "red")$quality)
+shapiro.test(filter(data, type == "white")$quality)
+
+# Q-Q Plots for Normality
+qqnorm(filter(data, type == "red")$quality)
+qqline(filter(data, type == "red")$quality)
+
+qqnorm(filter(data, type == "white")$quality)
+qqline(filter(data, type == "white")$quality)
+
 ### Homogeneity of Variances:
 The assumption of equal variances between the two groups (red and white wines) can be tested using Levene’s test. If the variances are unequal, we may need to use a Welch's t-test instead of a standard t-test.
+
+# Levene's Test for Equality of Variances
+leveneTest(quality ~ type, data = data)
 
 For the correlation tests, we assume:
 
 - Linearity between the variables (alcohol and quality).
 - Normality of the residuals, which can be checked using Q-Q plots.
 - Independence of the observations.
+
+
+# Correlation Testing
+cor_red_alc   <- cor.test(filter(data, type == "red")$alcohol, filter(data, type == "red")$quality)
+cor_white_alc <- cor.test(filter(data, type == "white")$alcohol, filter(data, type == "white")$quality)
+
+list(
+  red   = tidy(cor_red_alc),
+  white = tidy(cor_white_alc)
+)
 
   
 ## Initial Data Exploration
