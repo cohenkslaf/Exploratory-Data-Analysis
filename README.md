@@ -25,6 +25,16 @@ The dataset used for this analysis comes from the UCI Wine Quality Database and 
 
 This dataset has no missing values and consists of 6,497 instances from both red and white wines, providing a sufficient sample for analysis.
 
+## Purpose
+
+> We needed to extract some “actionable” insights from the UCI Wine
+> Quality Data Set . The purpose is that a wine producer has hired us to
+> better understand what factors affect wine quality. The producer can
+> also look at which production factors have an effect on rating scores
+> by consumers. The reason why we utilized exploratory data analysis is
+> show different distributions of certain production techniques and why
+> consumers probably favor one type of wine over the other.
+
 
 ## Loading and Installing the Required Packages and Data Loading and Merging
 
@@ -361,15 +371,7 @@ We recommend that wine producers focus on the following to improve wine quality:
 
 Future studies could incorporate additional variables such as the geographical region of production, vintage year, or consumer preferences through survey data. Moreover, examining the sensory attributes of wine (e.g., aroma, flavor complexity) in conjunction with chemical properties could offer a more comprehensive understanding of what drives consumer preferences.
 
-## Purpose
 
-> We needed to extract some “actionable” insights from the UCI Wine
-> Quality Data Set . The purpose is that a wine producer has hired us to
-> better understand what factors affect wine quality. The producer can
-> also look at which production factors have an effect on rating scores
-> by consumers. The reason why we utilized exploratory data analysis is
-> show different distributions of certain production techniques and why
-> consumers probably favor one type of wine over the other.
 
 
 
