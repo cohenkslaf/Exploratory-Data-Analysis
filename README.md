@@ -23,6 +23,12 @@ The dataset used for this analysis comes from the UCI Wine Quality Database and 
 - **Alcohol**: A key factor influencing the body and taste of wine.
 - **Quality**: A subjective rating assigned by consumers and wine experts.
 
+- Ratio: Fixed Acidity, Volatile Acidity, Citric Acid, Residual Sugar, Chlorides, Free Sulfur Dioxide, Total Sulfur Dioxide, Density, Sulphates, Alcohol
+
+-Interval: pH
+
+-Ordinal: Quality
+
 This dataset has no missing values and consists of 6,497 instances from both red and white wines, providing a sufficient sample for analysis.
 
 ## Purpose
