@@ -213,7 +213,9 @@ box-plot compares the levels of residual sugar. While looking at the
 box-plot, one could infer that since white wine data points cluster
 towards the top, it is safe to say that white wine tends to be sweeter
 than red wine since the red wine data points are clustered more twoards
-the bottom. Finally, the last box-plot compares the wines’ data based
+the bottom. 
+
+Finally, the last box-plot compares the wines’ data based
 off of volatile acidity. While studying the box-plot, it is shown that
 the red wine quartile range has a higher value than the white wine’s
 range, meaning that red wine tends to have a higher volatile acidity.
