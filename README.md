@@ -68,6 +68,23 @@ white$type <- "white"
 data <- dplyr::bind_rows(red, white)
 ```
 
+## Assumptions Check for Statistical Tests
+
+For the t-test used to compare the means of red and white wine quality, we must check the assumptions of normality and variance homogeneity:
+
+### Normality:
+We assume that the distribution of wine quality scores for both red and white wines is approximately normal. To verify this, we can conduct Shapiro-Wilk tests for normality or visually inspect histograms and Q-Q plots for both types of wine.
+
+### Homogeneity of Variances:
+The assumption of equal variances between the two groups (red and white wines) can be tested using Levene’s test. If the variances are unequal, we may need to use a Welch's t-test instead of a standard t-test.
+
+For the correlation tests, we assume:
+
+- Linearity between the variables (alcohol and quality).
+- Normality of the residuals, which can be checked using Q-Q plots.
+- Independence of the observations.
+
+  
 ## Initial Data Exploration
 
 ``` r
@@ -353,21 +370,6 @@ list(
 > producers should stick to a higher level ph method of making wine.
 
 
-## Assumptions Check for Statistical Tests
-
-For the t-test used to compare the means of red and white wine quality, we must check the assumptions of normality and variance homogeneity:
-
-### Normality:
-We assume that the distribution of wine quality scores for both red and white wines is approximately normal. To verify this, we can conduct Shapiro-Wilk tests for normality or visually inspect histograms and Q-Q plots for both types of wine.
-
-### Homogeneity of Variances:
-The assumption of equal variances between the two groups (red and white wines) can be tested using Levene’s test. If the variances are unequal, we may need to use a Welch's t-test instead of a standard t-test.
-
-For the correlation tests, we assume:
-
-- Linearity between the variables (alcohol and quality).
-- Normality of the residuals, which can be checked using Q-Q plots.
-- Independence of the observations.
 
 ## Conclusion and Recommendations
 
