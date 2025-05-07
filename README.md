@@ -25,45 +25,6 @@ The dataset used for this analysis comes from the UCI Wine Quality Database and 
 
 This dataset has no missing values and consists of 6,497 instances from both red and white wines, providing a sufficient sample for analysis.
 
-## Assumptions Check for Statistical Tests
-
-For the t-test used to compare the means of red and white wine quality, we must check the assumptions of normality and variance homogeneity:
-
-### Normality:
-We assume that the distribution of wine quality scores for both red and white wines is approximately normal. To verify this, we can conduct Shapiro-Wilk tests for normality or visually inspect histograms and Q-Q plots for both types of wine.
-
-### Homogeneity of Variances:
-The assumption of equal variances between the two groups (red and white wines) can be tested using Levene’s test. If the variances are unequal, we may need to use a Welch's t-test instead of a standard t-test.
-
-For the correlation tests, we assume:
-
-- Linearity between the variables (alcohol and quality).
-- Normality of the residuals, which can be checked using Q-Q plots.
-- Independence of the observations.
-
-## Conclusion and Recommendations
-
-From the exploratory data analysis, statistical tests, and visualizations, we conclude that white wine tends to have higher ratings and is preferred by consumers over red wine. The significant difference in average quality scores (white wine = 5.88, red wine = 5.64) supports this finding. Furthermore, alcohol content is a strong predictor of wine quality for both red and white wines. Red wine is characterized by a higher pH and volatile acidity, which consumers may perceive as less favorable.
-
-### Recommendations:
-We recommend that wine producers focus on the following to improve wine quality:
-
-- **For Red Wine Producers**: Reducing volatile acidity and ensuring a balanced alcohol content may improve the overall quality perception. Additionally, adjusting pH levels to reduce acidity might appeal to consumers.
-- **For White Wine Producers**: Since white wines tend to be sweeter and less acidic, focusing on maintaining moderate alcohol content while ensuring sweetness and a smooth, balanced acidity can further enhance consumer preference.
-
-## Future Research
-
-Future studies could incorporate additional variables such as the geographical region of production, vintage year, or consumer preferences through survey data. Moreover, examining the sensory attributes of wine (e.g., aroma, flavor complexity) in conjunction with chemical properties could offer a more comprehensive understanding of what drives consumer preferences.
-
-## Purpose
-
-> We needed to extract some “actionable” insights from the UCI Wine
-> Quality Data Set . The purpose is that a wine producer has hired us to
-> better understand what factors affect wine quality. The producer can
-> also look at which production factors have an effect on rating scores
-> by consumers. The reason why we utilized exploratory data analysis is
-> show different distributions of certain production techniques and why
-> consumers probably favor one type of wine over the other.
 
 ## Loading and Installing the Required Packages and Data Loading and Merging
 
@@ -368,5 +329,47 @@ list(
 > a higher ph level. In conclusion the observation can be definite is
 > that white wine producers should stick to sweeter wines while red wine
 > producers should stick to a higher level ph method of making wine.
+
+
+## Assumptions Check for Statistical Tests
+
+For the t-test used to compare the means of red and white wine quality, we must check the assumptions of normality and variance homogeneity:
+
+### Normality:
+We assume that the distribution of wine quality scores for both red and white wines is approximately normal. To verify this, we can conduct Shapiro-Wilk tests for normality or visually inspect histograms and Q-Q plots for both types of wine.
+
+### Homogeneity of Variances:
+The assumption of equal variances between the two groups (red and white wines) can be tested using Levene’s test. If the variances are unequal, we may need to use a Welch's t-test instead of a standard t-test.
+
+For the correlation tests, we assume:
+
+- Linearity between the variables (alcohol and quality).
+- Normality of the residuals, which can be checked using Q-Q plots.
+- Independence of the observations.
+
+## Conclusion and Recommendations
+
+From the exploratory data analysis, statistical tests, and visualizations, we conclude that white wine tends to have higher ratings and is preferred by consumers over red wine. The significant difference in average quality scores (white wine = 5.88, red wine = 5.64) supports this finding. Furthermore, alcohol content is a strong predictor of wine quality for both red and white wines. Red wine is characterized by a higher pH and volatile acidity, which consumers may perceive as less favorable.
+
+### Recommendations:
+We recommend that wine producers focus on the following to improve wine quality:
+
+- **For Red Wine Producers**: Reducing volatile acidity and ensuring a balanced alcohol content may improve the overall quality perception. Additionally, adjusting pH levels to reduce acidity might appeal to consumers.
+- **For White Wine Producers**: Since white wines tend to be sweeter and less acidic, focusing on maintaining moderate alcohol content while ensuring sweetness and a smooth, balanced acidity can further enhance consumer preference.
+
+## Future Research
+
+Future studies could incorporate additional variables such as the geographical region of production, vintage year, or consumer preferences through survey data. Moreover, examining the sensory attributes of wine (e.g., aroma, flavor complexity) in conjunction with chemical properties could offer a more comprehensive understanding of what drives consumer preferences.
+
+## Purpose
+
+> We needed to extract some “actionable” insights from the UCI Wine
+> Quality Data Set . The purpose is that a wine producer has hired us to
+> better understand what factors affect wine quality. The producer can
+> also look at which production factors have an effect on rating scores
+> by consumers. The reason why we utilized exploratory data analysis is
+> show different distributions of certain production techniques and why
+> consumers probably favor one type of wine over the other.
+
 
 
