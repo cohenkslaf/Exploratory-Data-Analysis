@@ -1,5 +1,37 @@
 README
 ================
+# Wine Quality Analysis Report
+
+## Business Understanding
+
+Good quality wine is typically characterized by a balance of several factors including acidity, tannins, alcohol content, sweetness, and the wine's overall structure. Wine quality is often judged by consumers based on taste preferences, which may vary by region, culture, and even personal preference. Generally, higher-quality wines tend to have well-balanced acidity and alcohol levels, appropriate residual sugar content, and fewer defects, such as high volatile acidity. Wine ratings, like those used in this dataset, are often influenced by expert panels and consumer reviews, which typically rate the wines on a scale (e.g., 1-10). Factors such as the vineyard’s terroir (environmental factors), the grape variety, and production techniques such as fermentation temperature and time, also play significant roles in determining the final quality.
+
+## Data Understanding
+
+The dataset used for this analysis comes from the UCI Wine Quality Database and includes chemical and sensory attributes of red and white wines, specifically:
+
+- **Fixed Acidity**: Influences the taste of the wine, contributing to its tartness and aging potential.
+- **Volatile Acidity**: A measure of wine spoilage, typically an undesirable trait at high levels.
+- **Citric Acid**: Contributes to the wine's freshness and acidity.
+- **Residual Sugar**: Impacts the sweetness of the wine.
+- **Chlorides**: Higher levels can result in undesirable salty flavors.
+- **Free Sulfur Dioxide**: Helps preserve wine but excessive levels can result in an unpleasant taste.
+- **Total Sulfur Dioxide**: A form of sulfur used in wine preservation.
+- **Density**: Affects the mouthfeel and body of the wine.
+- **pH**: Influences the wine's acidity.
+- **Sulphates**: Adds to the wine's preservation and stability.
+- **Alcohol**: A key factor influencing the body and taste of wine.
+- **Quality**: A subjective rating assigned by consumers and wine experts.
+
+## What Types are the Data?
+
+Ratio: Fixed Acidity, Volatile Acidity, Citric Acid, Residual Sugar, Chlorides, Free Sulfur Dioxide, Total Sulfur Dioxide, Density, Sulphates, Alcohol
+
+Interval: pH
+
+Ordinal: Quality
+
+This dataset has no missing values and consists of 6,497 instances from both red and white wines, providing a sufficient sample for analysis.
 
 ## Purpose
 
@@ -10,6 +42,7 @@ README
 > by consumers. The reason why we utilized exploratory data analysis is
 > show different distributions of certain production techniques and why
 > consumers probably favor one type of wine over the other.
+
 
 ## Loading and Installing the Required Packages and Data Loading and Merging
 
@@ -26,10 +59,10 @@ library(corrplot)
 ```
 
 ``` r
-# URLs for the datasets and other sources 
+# URLs for the datasets and other sources
 red_url   <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
 white_url <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-white.csv"
-volatile_acidity_url <- "https://www.awri.com.au/wp-content/uploads/2018/03/s1982.pdf" 
+volatile_acidity_url <- "https://www.awri.com.au/wp-content/uploads/2018/03/s1982.pdf"
 
 # Read data
 red   <- read.csv(red_url, sep = ";")
@@ -43,6 +76,47 @@ white$type <- "white"
 data <- dplyr::bind_rows(red, white)
 ```
 
+## Assumptions Check for Statistical Tests
+
+For the t-test used to compare the means of red and white wine quality, we must check the assumptions of normality and variance homogeneity:
+
+### Normality:
+We assume that the distribution of wine quality scores for both red and white wines is approximately normal. To verify this, we can conduct Shapiro-Wilk tests for normality or visually inspect histograms and Q-Q plots for both types of wine.
+
+# Shapiro-Wilk Test for Normality
+shapiro.test(filter(data, type == "red")$quality)
+shapiro.test(filter(data, type == "white")$quality)
+
+# Q-Q Plots for Normality
+qqnorm(filter(data, type == "red")$quality)
+qqline(filter(data, type == "red")$quality)
+
+qqnorm(filter(data, type == "white")$quality)
+qqline(filter(data, type == "white")$quality)
+
+### Homogeneity of Variances:
+The assumption of equal variances between the two groups (red and white wines) can be tested using Levene’s test. If the variances are unequal, we may need to use a Welch's t-test instead of a standard t-test.
+
+# Levene's Test for Equality of Variances
+leveneTest(quality ~ type, data = data)
+
+For the correlation tests, we assume:
+
+- Linearity between the variables (alcohol and quality).
+- Normality of the residuals, which can be checked using Q-Q plots.
+- Independence of the observations.
+
+
+# Correlation Testing
+cor_red_alc   <- cor.test(filter(data, type == "red")$alcohol, filter(data, type == "red")$quality)
+cor_white_alc <- cor.test(filter(data, type == "white")$alcohol, filter(data, type == "white")$quality)
+
+list(
+  red   = tidy(cor_red_alc),
+  white = tidy(cor_white_alc)
+)
+
+  
 ## Initial Data Exploration
 
 ``` r
@@ -91,7 +165,7 @@ summary(data)
     ##  Mean   :0.05603   Mean   : 30.53      Mean   :115.7        Mean   :0.9947  
     ##  3rd Qu.:0.06500   3rd Qu.: 41.00      3rd Qu.:156.0        3rd Qu.:0.9970  
     ##  Max.   :0.61100   Max.   :289.00      Max.   :440.0        Max.   :1.0390  
-    ##        pH          sulphates         alcohol         quality     
+    ##        pH          sulphates         alcohol         quality    
     ##  Min.   :2.720   Min.   :0.2200   Min.   : 8.00   Min.   :3.000  
     ##  1st Qu.:3.110   1st Qu.:0.4300   1st Qu.: 9.50   1st Qu.:5.000  
     ##  Median :3.210   Median :0.5100   Median :10.30   Median :6.000  
@@ -99,12 +173,12 @@ summary(data)
     ##  3rd Qu.:3.320   3rd Qu.:0.6000   3rd Qu.:11.30   3rd Qu.:6.000  
     ##  Max.   :4.010   Max.   :2.0000   Max.   :14.90   Max.   :9.000  
     ##      type          
-    ##  Length:6497       
+    ##  Length:6497      
     ##  Class :character  
     ##  Mode  :character  
     ##                    
     ##                    
-    ## 
+    ##
 
 > The main reason why we ran this code was to see summary statistics for
 > red and white wine. While doing this, we see that there are more white
@@ -116,15 +190,15 @@ summary(data)
 colSums(is.na(data))
 ```
 
-    ##        fixed.acidity     volatile.acidity          citric.acid 
-    ##                    0                    0                    0 
-    ##       residual.sugar            chlorides  free.sulfur.dioxide 
-    ##                    0                    0                    0 
-    ## total.sulfur.dioxide              density                   pH 
-    ##                    0                    0                    0 
-    ##            sulphates              alcohol              quality 
-    ##                    0                    0                    0 
-    ##                 type 
+    ##        fixed.acidity     volatile.acidity          citric.acid
+    ##                    0                    0                    0
+    ##       residual.sugar            chlorides  free.sulfur.dioxide
+    ##                    0                    0                    0
+    ## total.sulfur.dioxide              density                   pH
+    ##                    0                    0                    0
+    ##            sulphates              alcohol              quality
+    ##                    0                    0                    0
+    ##                 type
     ##                    0
 
 > I ran this code to confirm that there is no missing data.
@@ -180,7 +254,11 @@ Type](4_25_Capstone_-Complete1-_.Rmd-_files/figure-gfm/chemical-boxplots-4.png)
 The white wine has a higher median than the red wine and most of the
 white wine’s data points are clustered towards the top while the red
 wine’s data points are clustered more towards the bottom. This means
-that on average, white wine contains more alcohol than red wine. The
+that on average, white wine contains more alcohol than red wine. 
+
+
+
+The
 second box-plot represents ph levels of both types of wine. The higher
 the ph level, the less acidic the, which we see with the white wine. Red
 wine acoording to the box plots has a higher acidic level. The third
@@ -188,7 +266,11 @@ box-plot compares the levels of residual sugar. While looking at the
 box-plot, one could infer that since white wine data points cluster
 towards the top, it is safe to say that white wine tends to be sweeter
 than red wine since the red wine data points are clustered more twoards
-the bottom. Finally, the last box-plot compares the wines’ data based
+the bottom. 
+
+
+
+Finally, the last box-plot compares the wines’ data based
 off of volatile acidity. While studying the box-plot, it is shown that
 the red wine quartile range has a higher value than the white wine’s
 range, meaning that red wine tends to have a higher volatile acidity.
@@ -198,7 +280,11 @@ measure different ideas of acid. Ph levels are often the measure how
 strong the acid feeling is while you consume something acidic. On the
 contrary volatile acidity “is a measure of the low molecular weight (or
 steam distillable) fatty acids in wine and is generally percieved as the
-odour of vinegar” (Australian Wine Research Institute, 2018, p. 2).
+odour of vinegar” (Australian Wine Research Institute, 2018, p. 2).
+
+
+
+
 Lastly, these are important chemical differences to look into becasue
 most of the time it depends on what the consumer is preferring, whether
 it is a less acidic feeling while drinking, the amount of alcohol, the
@@ -283,7 +369,7 @@ list(
     ##   estimate statistic  p.value parameter conf.low conf.high method    alternative
     ##      <dbl>     <dbl>    <dbl>     <int>    <dbl>     <dbl> <chr>     <chr>      
     ## 1    0.476      21.6 2.83e-91      1597    0.437     0.513 Pearson'… two.sided  
-    ## 
+    ##
     ## $white
     ## # A tibble: 1 × 8
     ##   estimate statistic   p.value parameter conf.low conf.high method   alternative
@@ -314,3 +400,24 @@ list(
 > a higher ph level. In conclusion the observation can be definite is
 > that white wine producers should stick to sweeter wines while red wine
 > producers should stick to a higher level ph method of making wine.
+
+
+
+## Conclusion and Recommendations
+
+From the exploratory data analysis, statistical tests, and visualizations, we conclude that white wine tends to have higher ratings and is preferred by consumers over red wine. The significant difference in average quality scores (white wine = 5.88, red wine = 5.64) supports this finding. Furthermore, alcohol content is a strong predictor of wine quality for both red and white wines. Red wine is characterized by a higher pH and volatile acidity, which consumers may perceive as less favorable.
+
+### Recommendations:
+We recommend that wine producers focus on the following to improve wine quality:
+
+- **For Red Wine Producers**: Reducing volatile acidity and ensuring a balanced alcohol content may improve the overall quality perception. Additionally, adjusting pH levels to reduce acidity might appeal to consumers.
+- **For White Wine Producers**: Since white wines tend to be sweeter and less acidic, focusing on maintaining moderate alcohol content while ensuring sweetness and a smooth, balanced acidity can further enhance consumer preference.
+
+## Future Research
+
+Future studies could incorporate additional variables such as the geographical region of production, vintage year, or consumer preferences through survey data. Moreover, examining the sensory attributes of wine (e.g., aroma, flavor complexity) in conjunction with chemical properties could offer a more comprehensive understanding of what drives consumer preferences.
+
+
+
+
+
