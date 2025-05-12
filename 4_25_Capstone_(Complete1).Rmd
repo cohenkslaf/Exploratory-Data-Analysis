@@ -124,7 +124,7 @@ plot(filter(data, type == "red")$alcohol, filter(data, type == "red")$quality,
 
 plot(filter(data, type == "white")$alcohol, filter(data, type == "white")$quality,
      main = "White Wine: Alcohol vs Quality",
-     xlab = "Alcohol", ylab = "Quality", pch = 19, col = "white")
+     xlab = "Alcohol", ylab = "Quality", pch = 19, col = "red")
 par(mfrow = c(1, 1))  # Reset the plotting window to default
 ```
 ---
