@@ -1,0 +1,5 @@
+# A tibble: 2 × 5
+  variable  estimate  p.value conf.low conf.high
+  <chr>        <dbl>    <dbl>    <dbl>     <dbl>
+1 latitude    -0.470 0.000498   -0.660   -0.224 
+2 longitude   -0.352 0.0113     -0.572   -0.0848

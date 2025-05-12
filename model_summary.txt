@@ -1,0 +1,10 @@
+# A tibble: 3 × 5
+  term        estimate std.error statistic     p.value
+  <chr>          <dbl>     <dbl>     <dbl>       <dbl>
+1 (Intercept)    5.23     5.40       0.969 0.338      
+2 lat           -0.628    0.102     -6.17  0.000000137
+3 lon           -0.244    0.0456    -5.34  0.00000248 
+# A tibble: 1 × 12
+  r.squared adj.r.squared sigma statistic      p.value    df logLik   AIC   BIC deviance df.residual  nobs
+      <dbl>         <dbl> <dbl>     <dbl>        <dbl> <dbl>  <dbl> <dbl> <dbl>    <dbl>       <int> <int>
+1     0.512         0.491  6.42      25.1 0.0000000339     2  -166.  339.  347.    1976.          48    51

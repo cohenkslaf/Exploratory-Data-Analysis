@@ -1,0 +1,5 @@
+# A tibble: 2 × 3
+  variable  estimate p.value
+  <chr>        <dbl>   <dbl>
+1 latitude    -0.406 0.00309
+2 longitude   -0.194 0.173  

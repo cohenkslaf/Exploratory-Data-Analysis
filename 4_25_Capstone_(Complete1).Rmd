@@ -61,6 +61,14 @@ library(broom)
 library(corrplot)
 ```
 
+
+
+
+
+
+
+
+
 ```{r data-loading}
 # URLs for the datasets and other sources 
 red_url   <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
@@ -90,6 +98,11 @@ print(shapiro_red)
 cat("\nShapiro-Wilk Test for White Wine:\n")
 print(shapiro_white)
 
+
+
+
+
+
 # Q-Q Plots for Normality
 par(mfrow = c(1, 2))  # Set up the plotting window to show two plots side by side
 qqnorm(filter(data, type == "red")$quality, main = "Q-Q Plot for Red Wine Quality")
@@ -99,12 +112,22 @@ qqnorm(filter(data, type == "white")$quality, main = "Q-Q Plot for White Wine Qu
 qqline(filter(data, type == "white")$quality)
 par(mfrow = c(1, 1))  # Reset the plotting window to default
 
+
+
+
+
+
 # Homogeneity of Variances using Levene’s Test
 library(car) # For leveneTest
 levene_test <- leveneTest(quality ~ type, data = data)
 
 cat("\nLevene's Test for Equality of Variances:\n")
 print(levene_test)
+
+
+
+
+
 
 # Correlation Testing
 cor_red_alc <- cor.test(filter(data, type == "red")$alcohol, filter(data, type == "red")$quality)
@@ -115,6 +138,12 @@ list(
   red = tidy(cor_red_alc),
   white = tidy(cor_white_alc)
 )
+
+
+
+
+
+
 
 # Scatter Plots for Alcohol vs Quality
 par(mfrow = c(1, 2))  # Set up the plotting window to show two plots side by side
@@ -127,11 +156,16 @@ plot(filter(data, type == "white")$alcohol, filter(data, type == "white")$qualit
      xlab = "Alcohol", ylab = "Quality", pch = 19, col = "red")
 par(mfrow = c(1, 1))  # Reset the plotting window to default
 ```
+#The Shapiro-Wilk test indicates that the quality scores for both red and white wines deviate significantly from normality. The Levene's Test suggests that the variances are not significantly different between red and white wines. As a result, non-parametric tests are appropriate for further analysis
+
+
+#The Pearson correlation tests show a moderate positive correlation between alcohol content and quality for both red and white wines. This suggests that higher alcohol content is associated with higher quality ratings. However, since 'quality' is ordinal, Spearman's rank correlation was also used to confirm this relationship.
 ---
 title: "Non-Parametric Analysis"
 output: html_document
 ---
 
+#Given the ordinal nature of the 'quality' variable, Spearman’s rank correlation is more appropriate for assessing the relationship between alcohol content and quality. The results show a significant positive correlation for both wine types, reinforcing the importance of alcohol content in wine quality.
 ```{r non-parametric-analysis, fig.cap="Spearman's Rank Correlation and Mann-Whitney U Test Results"}
 # Non-parametric correlation using Spearman's rank correlation
 cor_red_alc_spearman <- cor.test(filter(data, type == "red")$alcohol, 
@@ -176,6 +210,7 @@ mann_whitney_test <- wilcox.test(quality ~ type, data = data)
 tidy(mann_whitney_test)
 
 
+#The Mann-Whitney U test shows a significant difference in wine quality between red and white wines, which is further illustrated by the boxplot. This suggests that wine type is an important factor influencing consumer ratings.
 
 
 # Sample sizes
@@ -188,6 +223,7 @@ summary(data)
 > The main reason why we ran this code was to see summary statistics for red and white wine. While doing this, we see that there are more white wine samples than red wine. 
 
 ## Missing Values
+###The check for missing values confirms that there are no missing entries in the dataset, ensuring the integrity of the analysis
 ```{r missing-values}
 colSums(is.na(data))
 ```
@@ -203,6 +239,9 @@ ggplot(data, aes(x = factor(quality), fill = type)) +
   theme_minimal()
 ```
 > Red wine ratings have had stayed mainly in the five to six ranges. White wine ratings had higher ratings with six, seven, and eight. Reveals whether one wine type generally receives higher ratings. Additonally, white wine has an overall higher rating than red wine and shows an overall wider spread than it. In conclusion this can mean that white wine is more enjoyed than red wine to consumers. Another reason could be that white wine also outnumbers red wine in the amount of observations. 
+
+#The bar chart showing the distribution of quality scores by wine type reveals that white wines tend to have higher quality ratings compared to red wines. This could reflect consumer preferences or differences in production techniques between the two types of wine
+
 
 ### Chemical Properties
 ```{r chemical-boxplots, fig.cap="Key Chemical Properties by Wine Type"}
